@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results for "{{ search.keyword }}"</h1>
+
+    <form method="get" action="{% url 'search_results' search.id %}">
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date">
+        
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date">
+        
+        <button type="submit">Apply Filter</button>
+    </form>
+
+    <a href="{% url 'search' %}">Back to Search</a>
+
+    {% comment %} <form method="post" action="{% url 'refresh_results' %}">
+        {% csrf_token %}
+        <input type="hidden" name="keyword" value="{{ search.keyword }}">
+        <button type="submit">Refresh Search Results</button>
+    </form> {% endcomment %}
+
+
+
+
+    {% if results %}
+        <form method="post" action="{% url 'refresh_results' %}">
+            {% csrf_token %}
+            <input type="hidden" name="keyword" value="{{ search.keyword }}">
+            <button type="submit">Refresh Search Results</button>
+        </form>
+        <ul>
+            {% for result in results %}
+                <li>
+                    <h2><a href="{{ result.url }}" target="_blank">{{ result.title }}</a></h2>
+                    <p>{{ result.description }}</p>
+                    <p>Date Published: {{ result.date_published }}</p>
+                    {% comment %} <form method="post" action="{% url 'delete_search' result.user_search.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form> {% endcomment %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found for "{{ search.keyword }}".</p>
+    {% endif %}
+
+
+
+
+
+
+    
+
+
+
+    {% comment %} {% if results %}
+    <form method="post" action="{% url 'refresh_results' %}">
+        {% csrf_token %}
+        <input type="hidden" name="keyword" value="{{ search.keyword }}">
+        <button type="submit">Refresh Search Results</button>
+    </form>
+    <ul>
+        {% for result in results %}
+            <li>
+                <h2><a href="{{ result.url }}" target="_blank">{{ result.title }}</a></h2>
+                <p>{{ result.description }}</p>
+                <p>Date Published: {{ result.date_published }}</p>
+                <form method="post" action="{% url 'delete_search' result.user_search.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>No results found for "{{ search.keyword }}".</p>
+    {% endif %} {% endcomment %}
+
+
+
+
+
+
+
+    
+    
+
+    
+    
+</body>
+</html>
