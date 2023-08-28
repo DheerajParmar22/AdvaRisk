@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserSearch',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('keyword', models.CharField(max_length=255)),
                 ('date_searched', models.DateTimeField(auto_now_add=True)),
             ],
@@ -23,12 +24,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SearchResult',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=255)),
                 ('description', models.TextField()),
                 ('url', models.URLField()),
                 ('date_published', models.DateTimeField()),
-                ('user_search', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='NewsSearchApp.usersearch')),
+                ('user_search', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='NewsSearchApp.usersearch')),
             ],
         ),
     ]

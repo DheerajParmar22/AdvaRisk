@@ -1,0 +1,14 @@
+{% comment %} {% extends "admin/change_list.html" %}
+
+{% block content %}
+  {{ block.super }}
+
+  <div id="content-related">
+    <h2>Trending Keywords</h2>
+    <ul>
+      {% for keyword in trending_keywords %}
+        <li>{{ keyword.keyword }} ({{ keyword.search_count }} searches)</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %} {% endcomment %}

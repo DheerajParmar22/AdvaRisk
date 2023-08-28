@@ -1,6 +1,60 @@
-{% block content %}
-
-<h1>{{user.username}}
-
-{% endblock content %}
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+        .profile-card {
+            margin-top: 50px;
+        }
+        .profile-card .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+        .profile-card .card-title {
+            color: #333;
+            font-size: 28px;
+        }
+        .profile-card .bio-heading,
+        .profile-card .interests-heading {
+            color: #555;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .profile-card .edit-btn {
+            margin-top: 30px;
+        }
+        .back-btn {
+            margin-top: 20px;
+            margin-bottom: 20px; /* Added margin-bottom for spacing */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center profile-card">
+            <div class="col-md-8">
+                <a href="{% url 'search' %}" class="btn btn-secondary back-btn">Back to Search</a>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">{{ user.username }}'s Profile</h2>
+                        <div class="bio-heading">Bio:</div>
+                        <p>{{ user.customuser.bio|default:"No bio available." }}</p>
+                        <div class="interests-heading">Interests:</div>
+                        <p>{{ user.customuser.interests|default:"No interests available." }}</p>
+                        <!-- Add more sections here as needed -->
+                        <div class="text-center edit-btn">
+                            <a href="#" class="btn btn-primary">Edit Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
