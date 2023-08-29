@@ -1,10 +1,11 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
 from .models import UserSearch, SearchResult
-from django.db.models import Count
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+from datetime import timedelta
 from django.utils import timezone
-from django.utils.timezone import timedelta
+from django.db.models import Count
+
 
 
 class CustomUserAdmin(UserAdmin):
@@ -33,9 +34,7 @@ class UserSearchAdmin(admin.ModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(
-            request,
-            extra_context=extra_context,
-        )
+            request, extra_context=extra_context)
 
         # Get trending keywords
         trending_keywords = UserSearch.objects \
@@ -47,7 +46,7 @@ class UserSearchAdmin(admin.ModelAdmin):
         response.context_data['trending_keywords'] = trending_keywords
 
         return response
-
+    
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

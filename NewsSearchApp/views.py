@@ -1,15 +1,15 @@
 import requests
 from django.shortcuts import render, redirect
-from .models import UserSearch, SearchResult
-from datetime import datetime
-from django.conf import settings
-from django.utils import timezone
-from .forms import SearchForm
-from django.contrib.auth.models import User
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.conf import settings
+from .models import UserSearch, SearchResult
+from .forms import SearchForm
+from django.utils import timezone
+import datetime
 from celery import shared_task
 
 
@@ -64,12 +64,9 @@ def registerUser(request):
     return render(request, 'login_register.html', context)
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def search(request):
     form = SearchForm(request.POST or None)
-
-    # if request.user != user_search.user:
-    #     return HttpResponse('You are not allowed here.')
 
     if request.method == 'POST':
         keyword = request.POST.get('keyword')
@@ -101,6 +98,7 @@ def search(request):
                     date_published=datetime.strptime(
                         article['publishedAt'], '%Y-%m-%dT%H:%M:%SZ')
                 )
+
             # Delete the existing search (if any) to avoid duplicates
             UserSearch.objects.filter(keyword=keyword).exclude(
                 id=user_search.id).delete()
@@ -109,11 +107,12 @@ def search(request):
 
     searches = UserSearch.objects.filter(
         user=request.user).order_by('-date_searched')
+    
     context = {'searches': searches, 'form': form}
     return render(request, 'search.html', context)
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def search_results(request, search_id):
     search = UserSearch.objects.get(pk=search_id)
     results = SearchResult.objects.filter(
@@ -131,8 +130,8 @@ def search_results(request, search_id):
     return render(request, 'search_results.html', context)
 
 
-# @login_required(login_url='login')
 @shared_task
+@login_required(login_url='login')
 def refresh_results(request):
     keyword = request.POST.get('keyword')
     search = UserSearch.objects.get(keyword=keyword)
@@ -147,7 +146,7 @@ def refresh_results(request):
         response = requests.get(newsapi_url)
         news_data = response.json()
 
-        # Create SearchResult instances for new articles
+        # Create SearchResult instances for news articles
         for article in news_data['articles']:
             new_date = timezone.make_aware(
                 datetime.strptime(
@@ -162,7 +161,6 @@ def refresh_results(request):
                     url=article['url'],
                     date_published=new_date
                 )
-
     return redirect('search_results', search_id=search.id)
 
 
@@ -171,13 +169,11 @@ def delete_search(request, search_id):
     try:
         search_to_delete = UserSearch.objects.get(
             id=search_id, user=request.user)
+        search_to_delete.delete()
+        return redirect('search')
     except UserSearch.DoesNotExist:
         messages.error(request, 'Search not found or does not belong to you.')
         return redirect('search')
-
-    search_to_delete.delete()
-    messages.success(request, 'Search deleted successfully.')
-    return redirect('search')
 
 
 @login_required(login_url='login')
