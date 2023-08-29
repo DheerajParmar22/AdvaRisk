@@ -22,17 +22,24 @@ Modules/Methods Documentation:
 views.py:
 ● loginPage(request): Handles user login, authentication, and redirects to the search page
 upon successful login.
+
 ● logoutUser(request): Logs out the authenticated user.
+
 ● registerUser(request): Handles user registration, account creation, and redirects to the
 search page upon successful registration.
+
 ● search(request): Handles user search queries, stores search results, and allows filtering
 by date, source, and language.
+
 ● search_results(request, search_id): Displays the search results along with options to
 filter by date, source, and language.
+
 ● refresh_results(request): Fetches and stores new search results for a keyword, updating
 the existing ones.
+
 ● delete_search(request, search_id): Allows the user to delete a search and associated
 results.
+
 ● userProfile(request, pk): Displays the user profile page.
 
 models.py:
