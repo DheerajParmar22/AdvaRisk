@@ -20,6 +20,7 @@ Setup Instructions:
 Modules/Methods Documentation:
 
 views.py:
+
 ● loginPage(request): Handles user login, authentication, and redirects to the search page
 upon successful login.
 
@@ -43,31 +44,45 @@ results.
 ● userProfile(request, pk): Displays the user profile page.
 
 models.py:
+
 ● UserSearch: Represents a user's search query and related metadata such as keyword
 and date searched.
+
 ● SearchResult: Represents a single news article result associated with a user's search
 query.
 
 admin.py:
+
 ● CustomUserAdmin: Customizes the admin interface for the built-in User model, adding
 actions to block and unblock users.
+
 ● UserSearchAdmin: Customizes the admin interface for the UserSearch model,
 displaying search history and trending keywords.
+
 External Libraries/Classes Used:
 Please find enclosed the 'requirements.txt' file, where I've taken the liberty of
 meticulously reviewing and including the essential libraries only from my personal
 system. I've also added a few extra libraries just in case they might come in handy.
 Should you require any further adjustments or insights, please contact me anytime.
 I want to make sure everything works smoothly for you!
+
 Implementation Highlights:
+
 ● Implemented a user-friendly interface allowing users to search for news articles based
 on keywords.
+
 ● Stored search results and provided options to filter and sort them.
+
 ● Integrated user authentication, registration, and profile pages.
+
 ● Added admin actions to block/unblock users and view trending keywords.
+
 Challenges Faced:
+
 ● Configuring the News API integration.
+
 ● Setting up background job scheduling using Celery.
+
 ● Customizing the admin interface to display relevant data and trends.
 
 
